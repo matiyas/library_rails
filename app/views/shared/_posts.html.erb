@@ -2,6 +2,10 @@
 
 <h1>Posts</h1>
 
+<% if can? :create, Post %>
+  <%= link_to 'New Post', new_post_path %>
+<% end %>
+
 <%= will_paginate @posts, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer %>
 <table class="table">
   <thead>
@@ -32,7 +36,3 @@
 <%= will_paginate @posts, :renderer => WillPaginate::ActionView::Bootstrap4LinkRenderer %>
 
 <br>
-
-<% if can? :create, Post %>
-  <%= link_to 'New Post', new_post_path %>
-<% end %>

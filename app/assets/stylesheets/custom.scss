@@ -1,11 +1,24 @@
 @import "bootstrap";
 
 /* Sign in */
+body {
+  padding-top: 50px;
+}
+
 .form-signin {
   width: 100%;
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+  a {
+    font-size: 18px;
+  }
+}
+.form-password-reset {
+  max-width: 500px;
+}
+.form-registration {
+  max-width: 400px;
 }
 .form-signin .checkbox {
   font-weight: 400;
@@ -29,4 +42,10 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+.form-post {
+  max-width: 100%;
+  textarea {
+    min-height: 500px;
+  }
 }

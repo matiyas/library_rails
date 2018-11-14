@@ -1,13 +1,18 @@
+test_post:
+  title: Title
+  content: Content
+  user: user0
+
 <% 10.times do |n| %>
-admin_post_<%= n %>:
+admin_post<%= n %>:
   title: <%= Faker::Lorem.sentence %>
   content: <%= Faker::Lorem.paragraph %>
   user: admin
 <% end %>
 
   <% 2.times.to_a.product(10.times.to_a) do |n, m| %>
-<%= "user_#{n}_post_#{m}" %>:
+<%= "user#{n}_post#{m}" %>:
   title: <%= Faker::Lorem.sentence %>
   content: <%= Faker::Lorem.paragraph %>
-  user: user_<%= n %>
+  user: user<%= n %>
   <% end %>

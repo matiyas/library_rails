@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
   def setup
-    @post = posts(:user_0_post_0)
+    @post = posts(:user0_post0)
   end
 
   # Fields presence

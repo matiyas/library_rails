@@ -1,6 +1,6 @@
 <header>
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal"><%= link_to 'Library', root_path %></h5>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top">
+    <h5 class="my-0 mr-md-auto font-weight-normal"><%= link_to 'Home', root_path %></h5>
     <nav class="my-2 my-md-0 mr-md-3">
       <% if user_signed_in? %>
         <p>You're loged in as <%= link_to current_user.name, edit_user_registration_path %></p>

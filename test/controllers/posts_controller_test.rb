@@ -1,50 +1,119 @@
 require 'test_helper'
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    # @post = posts(:one)
+  include Devise::Test::IntegrationHelpers
+
+  def setup
+    @admin = users(:admin)
+    @user0 = users(:user0)
+    @user1_post0 = posts(:user1_post0)
+    @post = posts(:test_post)
   end
 
-  test "should get index" do
-    get posts_url
+  # Not logged in
+  test 'should get index' do
+    get posts_path
     assert_response :success
   end
 
-  # test "should get new" do
-  #   get new_post_url
-  #   assert_response :success
-  # end
+  test 'should get show' do
+    get post_path @post
+    assert_response :success
+  end
 
-  # test "should not create post when not logged in" do
-  #   ability = Ability.new
-  #   ability.cannot?(:post, )
-  #   assert_no_difference('Post.count') do
-  #     post posts_url, params: { post: { content: @post.content, title: @post.title, user_id: @post.user_id } }
-  #   end
-  #
-  #   assert_redirected_to post_url(Post.last)
-  # end
+  test 'should not get new when not logged in' do
+    assert_raises CanCan::AccessDenied do
+      get new_post_path
+    end
+  end
 
-  # test "should show post" do
-  #   get post_url(@post)
-  #   assert_response :success
-  # end
-  #
-  # test "should get edit" do
-  #   get edit_post_url(@post)
-  #   assert_response :success
-  # end
-  #
-  # test "should update post" do
-  #   patch post_url(@post), params: { post: { content: @post.content, title: @post.title, user_id: @post.user_id } }
-  #   assert_redirected_to post_url(@post)
-  # end
-  #
-  # test "should destroy post" do
-  #   assert_difference('Post.count', -1) do
-  #     delete post_url(@post)
-  #   end
-  #
-  #   assert_redirected_to posts_url
-  # end
+  test 'should not get edit when not logged in' do
+    assert_raises CanCan::AccessDenied do
+      get edit_post_path @post
+    end
+  end
+
+  test 'should not allow create when not logged in' do
+    assert_raises CanCan::AccessDenied do
+      post posts_path, params: { post: { title: 'Title', content: 'Content' } }
+    end
+  end
+
+  test 'should not allow edit when not logged in' do
+    assert_raises CanCan::AccessDenied do
+      patch post_path(@post), params: { post: { title: 'New Title' } }
+    end
+  end
+
+  test 'should not allow destroy when not logged in' do
+    assert_raises CanCan::AccessDenied do
+      delete post_path @post
+    end
+  end
+
+  # Logged in as unprivileged user
+  test 'should not allow edit when non-owner and non-admin' do
+    assert_raises CanCan::AccessDenied do
+      sign_in @user0
+      patch post_path(@user1_post0), params: { post: { title: 'New Title' } }
+    end
+  end
+
+  test 'should not allow delete when non-owner and non-admin' do
+    assert_raises CanCan::AccessDenied do
+      sign_in @user0
+      delete post_path @user1_post0
+    end
+  end
+
+  # Logged as privileged user
+  test 'should get new when logged in' do
+    sign_in @user0
+    get new_post_path
+    assert_response :success
+  end
+
+  test 'should get edit when logged in as owner' do
+    sign_in @user0
+    get edit_post_path @post
+    assert_response :success
+  end
+
+  test 'should allow create when logged in' do
+    sign_in @user0
+    assert_difference 'Post.count', 1 do
+      post posts_path, params: { post: { title: 'Title', content: 'Content' } }
+    end
+  end
+
+  test 'should allow edit when logged in as post owner' do
+    sign_in @user0
+    assert_changes '@post.title', to: 'New Title' do
+      patch post_path(@post), params: { post: { title: 'New Title' } }
+      @post.reload
+    end
+  end
+
+  test 'should allow delete when logged in as post owner' do
+    sign_in @user0
+    assert_difference 'Post.count', -1 do
+      delete post_path @post
+    end
+  end
+
+  # Logged as admin
+  test 'should allow edit when logged in as admin' do
+    sign_in @admin
+    assert_changes '@post.title', to: 'New Title' do
+      patch post_path(@post), params: { post: { title: 'New Title' } }
+      @post.reload
+    end
+  end
+
+  test 'should allow delete when logged in as admin' do
+    sign_in @user0
+    assert_difference 'Post.count', -1 do
+      delete post_path @post
+    end
+  end
 end

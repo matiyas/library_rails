@@ -4,7 +4,7 @@ admin:
   admin: true
 
 <% 2.times do |n| %>
-user_<%= n %>:
+user<%= n %>:
   name: <%= "User #{n}" %>
   email: <%= "user-#{n}" %>
   admin: false
