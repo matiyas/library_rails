@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    # redirect_to root_url
+    @posts = Post.paginate(page: params[:page])
   end
 
   # GET /posts/1

@@ -1,11 +1,15 @@
 admin:
   name: admin
   email: admin@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, '123456') %>
+  confirmed_at: <%= Time.now %>
   admin: true
 
 <% 2.times do |n| %>
 user<%= n %>:
   name: <%= "User #{n}" %>
-  email: <%= "user-#{n}" %>
+  email: <%= "user-#{n}@example.com" %>
+  encrypted_password: <%= Devise::Encryptor.digest(User, '123456') %>
+  confirmed_at: <%= Time.now %>
   admin: false
 <% end %>
