@@ -13,7 +13,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get new_user_session_path
     assert_template 'devise/sessions/new'
     post user_session_path, params: {
-      user: { email: '', password: '' }
+      user: { email: @user.email, password: '1234567' }
     }
     assert_template 'devise/sessions/new'
     assert_not flash.empty?
@@ -21,15 +21,28 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert flash.empty?
   end
 
-  test 'login with valid fields' do
+  test 'login with valid fields following by logout' do
+    # Log in
     get new_user_session_path
     assert_template 'devise/sessions/new'
-    # post user_session_path, params: {
-    #   user: { email: @user.email, encrypted_password: @user.encrypted_password }
-    # }
-    sign_in @user
-    flash.each do |key, value|
-      puts key, value
-    end
+    assert_select 'a[href=?]', new_user_session_path
+    post user_session_path, params: {
+      user: { email: @user.email, password: '123456', remember_me: false }
+    }
+    assert_not flash.empty?
+    assert_redirected_to root_path
+    follow_redirect!
+    assert_template 'posts/index'
+    assert user_logged_in?(@user)
+    assert_select 'a[href=?]', destroy_user_session_path
+
+    # Log out
+    delete destroy_user_session_path
+    assert_not user_logged_in?(@user)
+    assert_not flash.empty?
+    assert_redirected_to root_path
+    follow_redirect!
+    assert_template 'posts/index'
+    assert_select 'a[href=?]', new_user_session_path
   end
 end
