@@ -21,7 +21,7 @@
       <tr>
         <td><%= link_to post.title.truncate(40), post %></td>
         <td><%= post.content.truncate(100) %></td>
-        <td><%= post.user.name %></td>
+        <td><%= link_to post.user.name, user_path(post.user) %></td>
         <td><%= time_ago_in_words(post.created_at) %> ago</td>
         <% if can? :edit, post %>
           <td><%= link_to 'Edit', edit_post_path(post) %></td>

@@ -38,7 +38,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts.paginate(page: params[:page])
+  end
+
+  protected
 
 
   def sign_up_params
