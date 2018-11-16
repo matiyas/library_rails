@@ -3,7 +3,8 @@
     <h5 class="my-0 mr-md-auto font-weight-normal"><%= link_to 'Home', root_path %></h5>
     <nav class="my-2 my-md-0 mr-md-3">
       <% if user_signed_in? %>
-        <p>You're loged in as <%= link_to current_user.name, edit_user_registration_path %></p>
+        <a class="p-2 text-dark" href="#">Users</a>
+<!--        <p>You're loged in as <%#= link_to current_user.name, edit_user_registration_path %></p>-->
       <% end %>
     </nav>
     <% if user_signed_in? %>

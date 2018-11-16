@@ -10,4 +10,9 @@ class ActiveSupport::TestCase
     !session['warden.user.user.key'].nil? &&
       session['warden.user.user.key'][0][0] == user.id
   end
+
+  def assert_errors_explanation
+    assert_select 'div#error_explanation'
+    assert_select 'div.field_with_errors'
+  end
 end
