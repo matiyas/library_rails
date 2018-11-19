@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:show, :index], Post
+    can %i[show index], Post
     if user.present?
       can :create, Post
       can :manage, Post, user_id: user.id

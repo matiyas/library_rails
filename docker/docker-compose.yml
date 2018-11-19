@@ -1,0 +1,31 @@
+version: '3'
+services:
+  # db:
+  #   image: zajacp/postgres-uuid-hstore-docker:pg9.5-postgis2.2
+  #   volumes:
+  #     # montowanie katalogu z plikiem backup
+  #     - /home/test/tmp/databasebackup:/tmp
+  #     - testapp_pgdata:/var/lib/postgresql/data
+  # elasticsearch:
+  #   image: elasticsearch:2.4.6
+  # redis:
+  #   image: redis:4
+  web:
+    build: .
+    ports:
+#     - "22:2222"
+     - "3000:3000"
+    volumes:
+     - /home/dmatyjaszek/workspace_all/workspace_netkodo/testapp:/home/hosting/workspace
+     - /home/dmatyjaszek/.ssh:/home/hosting/.ssh
+     - testapp_rvm:/home/hosting/.rvm
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - db
+    #   - elasticsearch
+    #   - redis
+  
+volumes:
+  # testapp_pgdata:
+  testapp_rvm:
