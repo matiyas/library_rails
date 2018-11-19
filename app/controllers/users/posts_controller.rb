@@ -7,7 +7,9 @@ module Users
     # GET /posts
     # GET /posts.json
     def index
-      @posts = Post.paginate(page: params[:page])
+      users_ids = User.where(role: 'user').map(&:id)
+      posts = Post.where('user_id IN (?)', users_ids)
+      @posts = posts.paginate(page: params[:page])
     end
 
     # GET /posts/1
