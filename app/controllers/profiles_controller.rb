@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!, only: %i[show]
+  before_action :authenticate_user!
 
   def show
     @user = User.find(params[:id])

@@ -10,4 +10,8 @@ Rails.application.routes.draw do
   namespace :users do
     resources :posts
   end
+
+  namespace :admins do
+    resources :posts
+  end
 end
