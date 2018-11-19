@@ -6,7 +6,7 @@ class Ability
     if user.present?
       can :create, Post
       can :manage, Post, user_id: user.id
-      can :manage, :all if user.admin?
+      can :manage, :all if user.role? :admin
     end
   end
 end

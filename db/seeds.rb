@@ -1,5 +1,5 @@
 User.create(name: 'admin1', email: 'admin@example.com', password: '123456',
-            password_confirmation: '123456', admin: true, confirmed_at: Time.now)
+            password_confirmation: '123456', role: :admin, confirmed_at: Time.now)
 
 user = User.create(name: 'Damian Matyjaszek', email: 'dmatyjaszek@example.com',
                    password: '123456', password_confirmation: '123456',

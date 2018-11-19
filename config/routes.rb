@@ -2,10 +2,12 @@
 
 Rails.application.routes.draw do
   get 'profiles/:id', to: 'profiles#show', as: 'profile'
-  resources :posts
-  root 'posts#index'
+  # resources :posts
+  root 'users/posts#index'
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
-
+  namespace :users do
+    resources :posts
+  end
 end
