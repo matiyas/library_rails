@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :authenticate_user!, only: [:show]
 
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
@@ -40,11 +39,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  def show
-    @user = User.find(params[:id])
-    @posts = @user.posts.paginate(page: params[:page])
-    # authorize! :show, @user
-  end
 
   protected
 
