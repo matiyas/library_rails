@@ -50,11 +50,9 @@ div {
   color: green;
 }
 
-//.field_with_errors {
-//  padding: 2px;
-//  background-color: red;
-//  display: table;
-//}
+.field_with_errors {
+  border: 2px solid #ff9e9e;
+}
 
 #error_explanation {
   width: 450px;

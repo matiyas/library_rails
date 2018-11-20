@@ -19,17 +19,19 @@ $(document).ready(function() {
     $(':submit').removeAttr('data-disable-with');
 
     let options = {
-        success:       successResponse,
+        success: successResponse,
         beforeSubmit: beforeSubmit,
         error: showErrorResponse,
         dataType: 'json'
     };
 
     $('#new_post').ajaxForm(options);
-    let form = '';
+
 
     function beforeSubmit(formData, jqForm) {
-        form = jqForm[0].id;
+        $('.form-control').each(function(){
+            $(this).removeClass('field_with_errors');
+        });
     }
 
     function successResponse(response) {
@@ -43,12 +45,12 @@ $(document).ready(function() {
 
     function showErrorResponse(response) {
         let json = JSON.parse(response.responseText);
-        var alertMsg = '';
+        let alertMsg = '';
 
         jQuery.each(json, function(field, errors){
             let field_name = "[name*='[" + field + "]']";
-            $(field_name).css('border', '2px solid #ff9e9e');
-            console.log(errors);
+            console.log($(field_name));
+            $(field_name).addClass('field_with_errors');
 
             jQuery.each(errors, function (error) {
                 alertMsg += capitalize(field) + ' ' + errors[error] + '\n';
