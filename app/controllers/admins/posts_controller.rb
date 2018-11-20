@@ -1,13 +1,12 @@
-module Users
+module Admins
   class PostsController < ApplicationController
     before_action :set_post, only: %i[show edit update destroy]
-    skip_before_action :authenticate_user!, only: %i[index show]
     load_and_authorize_resource
 
     # GET /posts
     # GET /posts.json
     def index
-      users_ids = User.where(role: 'user').map(&:id)
+      users_ids = User.where(role: 'admin').map(&:id)
       posts = Post.where('user_id IN (?)', users_ids)
       @posts = posts.paginate(page: params[:page])
     end
@@ -30,10 +29,11 @@ module Users
     # POST /posts.json
     def create
       @post = current_user.posts.build(post_params)
+
       respond_to do |format|
         if @post.save
           format.html { redirect_to users_post_url(@post), notice: 'Post was successfully created.' }
-          format.json { render :show, status: :created, location: [:users, @post] }
+          format.json { render :show, status: :created, location: @post }
         else
           format.html { render :new }
           format.json { render json: @post.errors, status: :unprocessable_entity }

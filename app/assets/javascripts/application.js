@@ -14,3 +14,47 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function() {
+    $(':submit').removeAttr('data-disable-with');
+
+    let options = {
+        success:       successResponse,
+        beforeSubmit: beforeSubmit,
+        error: showErrorResponse,
+        dataType: 'json'
+    };
+
+    $('#new_post').ajaxForm(options);
+    let form = '';
+
+    function beforeSubmit(formData, jqForm) {
+        form = jqForm[0].id;
+    }
+
+    function successResponse(response) {
+        console.log('response');
+        // window.location =
+    }
+
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function showErrorResponse(response) {
+        let json = JSON.parse(response.responseText);
+        var alertMsg = '';
+
+        jQuery.each(json, function(field, errors){
+            let field_name = "[name*='[" + field + "]']";
+            $(field_name).css('border', '2px solid #ff9e9e');
+            console.log(errors);
+
+            jQuery.each(errors, function (error) {
+                alertMsg += capitalize(field) + ' ' + errors[error] + '\n';
+            })
+        });
+
+        alert(alertMsg);
+    }
+});

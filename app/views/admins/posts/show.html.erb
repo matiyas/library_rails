@@ -1,0 +1,13 @@
+<% if can? :edit, @post %>
+  <%= link_to 'Edit', edit_admins_post_path(@post) %>
+<% end %>
+
+<div class="blog-post">
+  <h2 class="blog-post-title"><%= @post.title %></h2>
+  <p class="blog-post-meta">
+    <%= @post.created_at.strftime('%B %d, %Y') %> by
+    <%= link_to @post.user.name, profile_path(@post.user) %>
+  </p>
+
+  <p><%= @post.content %></p>
+</div>
