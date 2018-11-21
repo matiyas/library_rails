@@ -29,11 +29,11 @@ $(document).ready(function() {
         dataType: 'json'
     };
 
-    function capitalize(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+    String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
     }
 
-    function removeExtension(string) {
+    String.prototype.removeExtension = function() {
         return string.replace(/\.[^/.]+$/, "");
     }
 
@@ -44,7 +44,7 @@ $(document).ready(function() {
     }
 
     function successResponse(response) {
-        let url = removeExtension(response['url']);
+        let url = response['url'].removeExtension();
         window.location = url;
     }
 
@@ -55,7 +55,7 @@ $(document).ready(function() {
             $(field_name).addClass('field_with_errors');
 
             jQuery.each(errors, function(error) {
-                alertMsg += capitalize(field).replace('_', ' ') + ' ' + errors[error] + '\n';
+                alertMsg += field.capitalize().replace('_', ' ') + ' ' + errors[error] + '\n';
             })
         });
 
@@ -70,6 +70,7 @@ $(document).ready(function() {
 
     $('.form-post').ajaxForm(options);
     $('.form-registration').ajaxForm(options);
+    $('.form-password-reset').ajaxForm(options);
     $('.form-signin').ajaxForm(signInOptions);
 });
 
