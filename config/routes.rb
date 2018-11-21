@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   # resources :posts
   root 'users/posts#index'
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    sessions: 'users/sessions'
   }
   namespace :users do
     resources :posts

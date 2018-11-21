@@ -22,6 +22,13 @@ $(document).ready(function() {
         dataType: 'json'
     };
 
+    let signInOptions = {
+        success: successResponse,
+        beforeSubmit: beforeSubmit,
+        error: errorSignInAction,
+        dataType: 'json'
+    };
+
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -47,7 +54,7 @@ $(document).ready(function() {
             let field_name = "[name*='[" + field + "]']";
             $(field_name).addClass('field_with_errors');
 
-            jQuery.each(errors, function (error) {
+            jQuery.each(errors, function(error) {
                 alertMsg += capitalize(field).replace('_', ' ') + ' ' + errors[error] + '\n';
             })
         });
@@ -55,8 +62,14 @@ $(document).ready(function() {
         alert(alertMsg);
     }
 
+    function errorSignInAction(response) {
+        alert(response.responseJSON['error']);
+    }
+
     $(':submit').removeAttr('data-disable-with');
+
     $('.form-post').ajaxForm(options);
     $('.form-registration').ajaxForm(options);
+    $('.form-signin').ajaxForm(signInOptions);
 });
 
