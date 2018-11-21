@@ -3,51 +3,50 @@ module Admins
     before_action :set_post, only: %i[show edit update destroy]
     load_and_authorize_resource
 
-    # GET /posts
-    # GET /posts.json
+    # GET /admins/posts
+    # GET /admins/posts.json
     def index
-      users_ids = User.where(role: 'admin').map(&:id)
-      posts = Post.where('user_id IN (?)', users_ids)
-      @posts = posts.paginate(page: params[:page])
+      @posts = Post.all.paginate(page: params[:page])
     end
 
-    # GET /posts/1
-    # GET /posts/1.json
+    # GET /admins/posts/1
+    # GET /admins/posts/1.json
     def show
     end
 
-    # GET /posts/new
+    # GET /admins/posts/new
     def new
       @post = Post.new
     end
 
-    # GET /posts/1/edit
+    # GET /admins/posts/1/edit
     def edit
     end
 
-    # POST /posts
-    # POST /posts.json
+    # POST /admins/posts
+    # POST /admins/posts.json
     def create
       @post = current_user.posts.build(post_params)
 
       respond_to do |format|
         if @post.save
-          format.html { redirect_to users_post_url(@post), notice: 'Post was successfully created.' }
-          format.json { render :show, status: :created, location: @post }
+          format.html { redirect_to [:admins, @post], notice: 'Post was successfully created.' }
+          format.json { render :show, status: :created, location: [:admins, @post] }
         else
           format.html { render :new }
           format.json { render json: @post.errors, status: :unprocessable_entity }
+          format.js { flash[:danger] = 'Danger' }
         end
       end
     end
 
-    # PATCH/PUT /posts/1
-    # PATCH/PUT /posts/1.json
+    # PATCH/PUT /admins/posts/1
+    # PATCH/PUT /admins/posts/1.json
     def update
       respond_to do |format|
         if @post.update(post_params)
-          format.html { redirect_to users_post_url(@post), notice: 'Post was successfully updated.' }
-          format.json { render :show, status: :ok, location: @post }
+          format.html { redirect_to [:admins, @post], notice: 'Post was successfully updated.' }
+          format.json { render :show, status: :ok, location: [:admins, @post] }
         else
           format.html { render :edit }
           format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -55,8 +54,8 @@ module Admins
       end
     end
 
-    # DELETE /posts/1
-    # DELETE /posts/1.json
+    # DELETE /admins/posts/1
+    # DELETE /admins/posts/1.json
     def destroy
       @post.destroy
       respond_to do |format|

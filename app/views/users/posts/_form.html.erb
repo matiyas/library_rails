@@ -1,16 +1,4 @@
-<%= form_for([:users, post], local: true, class: 'form-signin form-post') do |form| %>
-  <%# if post.errors.any? %>
-<!--    <div id="error_explanation">-->
-<!--      <h2><%#= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>-->
-
-<!--      <ul>-->
-      <%# post.errors.full_messages.each do |message| %>
-<!--        <li><%#= message %></li>-->
-      <%# end %>
-<!--      </ul>-->
-<!--    </div>-->
-  <%# end %>
-
+<%= form_for([:users, post], local: true, html: { class: 'form-signin form-post' }) do |form| %>
   <div class="field">
     <h5><%= form.label :title %></h5>
     <%= form.text_field :title, class: 'form-control' %>

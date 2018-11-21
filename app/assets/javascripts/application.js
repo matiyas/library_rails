@@ -12,51 +12,51 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
 //= require_tree .
 
 $(document).ready(function() {
-    $(':submit').removeAttr('data-disable-with');
-
     let options = {
         success: successResponse,
         beforeSubmit: beforeSubmit,
-        error: showErrorResponse,
+        error: errorAction,
         dataType: 'json'
     };
 
-    $('#new_post').ajaxForm(options);
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
+    function removeExtension(string) {
+        return string.replace(/\.[^/.]+$/, "");
+    }
 
-    function beforeSubmit(formData, jqForm) {
+    function beforeSubmit() {
         $('.form-control').each(function(){
             $(this).removeClass('field_with_errors');
         });
     }
 
     function successResponse(response) {
-        console.log('response');
-        // window.location =
+        let url = removeExtension(response['url']);
+        window.location = url;
     }
 
-    function capitalize(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    function showErrorResponse(response) {
-        let json = JSON.parse(response.responseText);
+    function errorAction(response) {
         let alertMsg = '';
-
-        jQuery.each(json, function(field, errors){
+        jQuery.each(response.responseJSON, function(field, errors){
             let field_name = "[name*='[" + field + "]']";
-            console.log($(field_name));
             $(field_name).addClass('field_with_errors');
 
             jQuery.each(errors, function (error) {
-                alertMsg += capitalize(field) + ' ' + errors[error] + '\n';
+                alertMsg += capitalize(field).replace('_', ' ') + ' ' + errors[error] + '\n';
             })
         });
 
         alert(alertMsg);
     }
+
+    $(':submit').removeAttr('data-disable-with');
+    $('.form-post').ajaxForm(options);
+    $('.form-registration').ajaxForm(options);
 });
+
