@@ -27,7 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
-        set_flash_message! :notice, :signed_up
+        flash[:notice] = find_message(:signed_up)
         sign_up(resource_name, resource)
         respond_to do |format|
           format.json do
@@ -36,7 +36,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
           end
         end
       else
-        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        flash[:notice] = find_message(:"signed_up_but_#{resource.inactive_message}")
         expire_data_after_sign_in!
         respond_to do |format|
           format.json do
@@ -65,14 +65,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
     if resource_updated
-      if is_flashing_format?
-        flash_key = if update_needs_confirmation?(resource, prev_unconfirmed_email)
-                      :update_needs_confirmation
-                    else
-                      :updated
-                    end
-        set_flash_message :notice, flash_key
-      end
+      flash_key = if update_needs_confirmation?(resource, prev_unconfirmed_email)
+                    :update_needs_confirmation
+                  else
+                    :updated
+                  end
+      flash[:notice] = find_message(flash_key)
       bypass_sign_in resource, scope: resource_name
       respond_to do |format|
         format.json { render json: { url: profile_url(resource) }, status: :ok }

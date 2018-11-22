@@ -7,7 +7,10 @@ module Users
     # GET /users/posts
     # GET /users/posts.json
     def index
-      @posts = current_user.posts.paginate(page: params[:page]) if user_signed_in?
+      if user_signed_in?
+        posts = current_user.posts.sort_by(&:created_at).reverse
+        @posts = posts.paginate(page: params[:page])
+      end
     end
 
     # GET /users/posts/1
@@ -30,7 +33,8 @@ module Users
       @post = current_user.posts.build(post_params)
       respond_to do |format|
         if @post.save
-          format.html { redirect_to [:users, @post], notice: 'Post was successfully created.' }
+          flash[:notice] = 'Post was successfully created.'
+          format.html { redirect_to [:users, @post]}
           format.json { render :show, status: :created, location: [:users, @post] }
         else
           format.html { render :new }
@@ -44,7 +48,8 @@ module Users
     def update
       respond_to do |format|
         if @post.update(post_params)
-          format.html { redirect_to [:users, @post], notice: 'Post was successfully updated.' }
+          flash[:notice] = 'Post was successfully updated.'
+          format.html { redirect_to [:users, @post] }
           format.json { render :show, status: :ok, location: [:users, @post] }
         else
           format.html { render :edit }
@@ -57,8 +62,9 @@ module Users
     # DELETE /users/posts/1.json
     def destroy
       @post.destroy
+      flash[:notice] = 'Post was successfully destroyed.'
       respond_to do |format|
-        format.html { redirect_to users_posts_url, notice: 'Post was successfully destroyed.' }
+        format.html { redirect_to users_posts_url }
         format.json { head :no_content }
       end
     end

@@ -6,7 +6,8 @@ module Admins
     # GET /admins/posts
     # GET /admins/posts.json
     def index
-      @posts = Post.all.paginate(page: params[:page])
+      posts = Post.all.sort_by(&:created_at).reverse
+      @posts = posts.paginate(page: params[:page])
     end
 
     # GET /admins/posts/1
@@ -27,15 +28,14 @@ module Admins
     # POST /admins/posts.json
     def create
       @post = current_user.posts.build(post_params)
-
       respond_to do |format|
         if @post.save
-          format.html { redirect_to [:admins, @post], notice: 'Post was successfully created.' }
+          flash[:success] = 'Post was successfully created.'
+          format.html { redirect_to [:admins, @post]}
           format.json { render :show, status: :created, location: [:admins, @post] }
         else
           format.html { render :new }
           format.json { render json: @post.errors, status: :unprocessable_entity }
-          format.js { flash[:danger] = 'Danger' }
         end
       end
     end
@@ -45,7 +45,8 @@ module Admins
     def update
       respond_to do |format|
         if @post.update(post_params)
-          format.html { redirect_to [:admins, @post], notice: 'Post was successfully updated.' }
+          flash[:notice] = 'Post was successfully updated.'
+          format.html { redirect_to [:users, @post] }
           format.json { render :show, status: :ok, location: [:admins, @post] }
         else
           format.html { render :edit }

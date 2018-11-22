@@ -34,7 +34,7 @@ $(document).ready(function() {
     }
 
     String.prototype.removeExtension = function() {
-        return string.replace(/\.[^/.]+$/, "");
+        return this.replace(/\.[^/.]+$/, "");
     }
 
     function beforeSubmit() {
@@ -70,7 +70,9 @@ $(document).ready(function() {
 
     $('.form-post').ajaxForm(options);
     $('.form-registration').ajaxForm(options);
-    $('.form-password-reset').ajaxForm(options);
+    $('.form-new-password-reset').ajaxForm(options);
+    $('.form-edit-password-reset').ajaxForm(options);
+    $('.form-new-confirmation').ajaxForm(options);
     $('.form-signin').ajaxForm(signInOptions);
 });
 
