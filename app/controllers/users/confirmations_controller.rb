@@ -15,13 +15,15 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
       flash[:notice] = 'You will receive an email with instructions for how' +
                         ' to confirm your email address in a few minutes.'
       respond_to do |format|
+        format.html { redirect_to new_user_session_path }
         format.json do
-          render json: { url: after_resending_confirmation_instructions_path_for(resource_name) },
+          render json: { url: new_user_session_path },
                  status: :ok
         end
       end
     else
       respond_to do |format|
+        format.html { render :new }
         format.json do
           render json: resource.errors.messages, status: :unprocessable_entity
         end

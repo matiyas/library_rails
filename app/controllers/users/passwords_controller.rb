@@ -17,12 +17,14 @@ class Users::PasswordsController < Devise::PasswordsController
       flash[:notice] = 'You will receive an email with instructions on how to' +
                        ' reset your password in a few minutes.'
       respond_to do |format|
+        format.html { redirect_to new_user_session_url }
         format.json do
           render json: { url: new_user_session_url }, status: :ok
         end
       end
     else
       respond_to do |format|
+        format.html { render :new }
         format.json do
           render json: resource.errors.messages, status: :unprocessable_entity
         end
@@ -50,6 +52,7 @@ class Users::PasswordsController < Devise::PasswordsController
         flash[:notice] = find_message(:updated_not_active)
       end
       respond_to do |format|
+        format.html { redirect_to after_resetting_password_path_for(resource) }
         format.json do
           render json: { url: after_resetting_password_path_for(resource) }, status: :ok
         end
@@ -57,6 +60,7 @@ class Users::PasswordsController < Devise::PasswordsController
     else
       set_minimum_password_length
       respond_to do |format|
+        format.html { render :edit }
         format.json do
           render json: resource.errors.messages, status: :unprocessable_entity
         end

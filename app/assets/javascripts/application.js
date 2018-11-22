@@ -45,34 +45,34 @@ $(document).ready(function() {
 
     function successResponse(response) {
         let url = response['url'].removeExtension();
-        window.location = url;
+         window.location = url;
     }
 
     function errorAction(response) {
         let alertMsg = '';
-        jQuery.each(response.responseJSON, function(field, errors){
+        $.each(response.responseJSON, function(field, errors){
             let field_name = "[name*='[" + field + "]']";
             $(field_name).addClass('field_with_errors');
 
-            jQuery.each(errors, function(error) {
-                alertMsg += field.capitalize().replace('_', ' ') + ' ' + errors[error] + '\n';
+            $.each(errors, function(error) {
+                alertMsg += field.capitalize().replace('_', ' ') + ' ' + errors[error] + '</br>';
             })
         });
 
-        alert(alertMsg);
+        $('.alert').remove();
+        $('.container:first').prepend('<div class="alert alert-error">' + alertMsg + '</div>');
     }
 
     function errorSignInAction(response) {
-        alert(response.responseJSON['error']);
+        let alert = '<div class="alert alert-error">' + response.responseJSON['error'] + '</div>';
+        $('.alert').remove();
+        $('.container:first').prepend(alert);
     }
 
     $(':submit').removeAttr('data-disable-with');
 
-    $('.form-post').ajaxForm(options);
-    $('.form-registration').ajaxForm(options);
-    $('.form-new-password-reset').ajaxForm(options);
-    $('.form-edit-password-reset').ajaxForm(options);
-    $('.form-new-confirmation').ajaxForm(options);
+    $('.form-post, .form-registration, .form-new-password-reset,' +
+        '.form-edit-password-reset,.form-new-confirmation').ajaxForm(options);
     $('.form-signin').ajaxForm(signInOptions);
 });
 

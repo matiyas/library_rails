@@ -16,9 +16,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
       user: { email: @user.email, password: '1234567' }
     }
     assert_template 'devise/sessions/new'
-    assert_not flash.empty?
+    assert_select 'div.alert'
     get root_path
-    assert flash.empty?
+    assert_select 'div.alert', 0
   end
 
   test 'login with valid fields following by logout' do
@@ -40,9 +40,8 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     delete destroy_user_session_path
     assert_not user_logged_in?(@user)
     assert_not flash.empty?
-    assert_redirected_to root_path
+    assert_redirected_to new_user_session_path
     follow_redirect!
-    assert_template 'posts/index'
-    assert_select 'a[href=?]', new_user_session_path
+    assert_template 'devise/sessions/new'
   end
 end

@@ -30,6 +30,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         flash[:notice] = find_message(:signed_up)
         sign_up(resource_name, resource)
         respond_to do |format|
+          format.html { redirect_to after_sign_up_path_for(resource) }
           format.json do
             render json: { url: after_sign_up_path_for(resource) },
                    status: :ok
@@ -39,8 +40,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
         flash[:notice] = find_message(:"signed_up_but_#{resource.inactive_message}")
         expire_data_after_sign_in!
         respond_to do |format|
+          format.html { redirect_to new_user_session_path }
           format.json do
-            render json: { url: after_inactive_sign_up_path_for(resource) },
+            render json: { url: new_user_session_path },
                    status: :ok
           end
         end
@@ -49,6 +51,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       clean_up_passwords resource
       set_minimum_password_length
       respond_to do |format|
+        format.html { render :new }
         format.json do
           render json: resource.errors.messages,
                  status: :unprocessable_entity
@@ -73,12 +76,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
       flash[:notice] = find_message(flash_key)
       bypass_sign_in resource, scope: resource_name
       respond_to do |format|
+        format.html { redirect_to profile_url(resource) }
         format.json { render json: { url: profile_url(resource) }, status: :ok }
       end
     else
       clean_up_passwords resource
       set_minimum_password_length
       respond_to do |format|
+        format.html { render :edit }
         format.json { render json: resource.errors.messages, status: :unprocessable_entity }
       end
     end

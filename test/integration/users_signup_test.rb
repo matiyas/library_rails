@@ -23,7 +23,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
       }
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
-    assert_redirected_to root_path
+    assert_redirected_to new_user_session_path
     follow_redirect!
     assert_not flash.empty?
     user = User.find_by(email: 'new-user@example.com')

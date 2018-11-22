@@ -11,14 +11,14 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # Not logged in
-  test 'should get index' do
+  test 'should not get index' do
     get users_posts_path
-    assert_response :success
+    assert_redirected_to new_user_session_path
   end
 
-  test 'should get show' do
+  test 'should not get show' do
     get users_post_path @post
-    assert_response :success
+    assert_redirected_to new_user_session_path
   end
 
   test 'should not get new when not logged in' do
@@ -57,18 +57,16 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   # Logged in as unprivileged user
   test 'should not allow edit when non-owner and non-admin' do
     sign_in @user0
-    assert_raises CanCan::AccessDenied do
-      patch users_post_path(@user1_post0), params: {
-        post: { title: 'New Title' }
-      }
-    end
+    patch users_post_path(@user1_post0), params: {
+      post: { title: 'New Title' }
+    }
+    assert_redirected_to new_user_session_path
   end
 
   test 'should not allow delete when non-owner and non-admin' do
     sign_in @user0
-    assert_raises CanCan::AccessDenied do
-      delete users_post_path @user1_post0
-    end
+    delete users_post_path @user1_post0
+    assert_redirected_to new_user_session_path
   end
 
   # Logged as privileged user
