@@ -10,6 +10,7 @@ gem 'devise'
 gem 'faker', '1.7.3'
 gem 'rails-controller-testing'
 gem 'sassc'
+gem 'webpacker'
 gem 'will_paginate', '3.1.6'
 
 

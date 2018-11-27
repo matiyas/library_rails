@@ -14,6 +14,7 @@
 //= require activestorage
 //= require_tree .
 
+
 $(document).ready(function() {
     let options = {
         success: successResponse,
