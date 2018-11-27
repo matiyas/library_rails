@@ -17,4 +17,10 @@ Rails.application.routes.draw do
   namespace :admins do
     resources :posts
   end
+
+  namespace :api, :defaults => { :format => 'json' } do
+    namespace :admins do
+      resources :posts
+    end
+  end
 end
