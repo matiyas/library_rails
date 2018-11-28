@@ -15,12 +15,26 @@
 
                 <tbody>
                 <tr v-for="post in posts" :key="post.id">
-                    <td><router-link v-bind:to="{ name: 'posts_path', params: { id: post.id } }">{{ post.title.substr(0, 40) }}</router-link></td>
+                    <td>
+                        <router-link v-bind:to="{ name: 'posts_path', params: { id: post.id } }">
+                            {{ post.title.substr(0, 40) }}
+                        </router-link>
+                    </td>
                     <td>{{ post.content.substr(0, 100) }}</td>
-                    <td><a v-bind:href="post.user_url">{{ post.user_name }}</a></td>
-                    <td><timeago :datetime="post.created_at"></timeago></td>
-                    <td><router-link :to="{ name: 'edit_post_path', params: { id: post.id } }">Edit</router-link></td>
-                    <td><a v-on:click="deletePost(post.id)">Delete</a></td>
+                    <td>
+                        <a v-bind:href="post.user_url">
+                            {{ post.user_name }}
+                        </a>
+                    </td>
+                    <td>
+                        <timeago :datetime="post.created_at"></timeago>
+                    </td>
+                    <td>
+                        <router-link :to="{ name: 'edit_post_path', params: { id: post.id } }">Edit</router-link>
+                    </td>
+                    <td>
+                        <a v-on:click="deletePost(post.id)">Delete</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -43,7 +57,8 @@
         name: "UsersPosts",
         data() {
             return {
-                posts: null
+                posts: null,
+                response: null
             }
         },
         mounted() {
@@ -52,12 +67,16 @@
         },
         methods: {
             deletePost: function(post_id) {
+                axios.defaults
+                     .headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]')
+                                                               .getAttribute('content');
                 axios.delete('/api/users/posts/' + post_id)
+                     .then(response => (console.log(response.data)));
+                // console.log(this.response);
             }
         }
     }
 </script>
 
 <style scoped>
-
 </style>

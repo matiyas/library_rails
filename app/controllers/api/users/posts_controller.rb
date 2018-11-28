@@ -63,7 +63,10 @@ class Api::Users::PostsController < ApplicationController
     flash[:notice] = 'Post was successfully destroyed.'
     respond_to do |format|
       format.html { redirect_to users_posts_url }
-      format.json { head :no_content }
+      format.json do
+        render json: { notice: 'Post was successfully destroyed.' },
+               status: :ok
+      end
     end
   end
 

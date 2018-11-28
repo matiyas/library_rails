@@ -27,4 +27,6 @@ Rails.application.routes.draw do
       resources :posts
     end
   end
+
+  match "*path", to: "users/posts#index", format: false, via: :get
 end
