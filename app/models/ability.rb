@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user, namespace)
     case namespace
-    when 'Users'
+    when 'Api::Users', 'Users'
       can %i[show index], Post
       can :manage, User, id: user&.id
       if user.present?
@@ -11,7 +11,7 @@ class Ability
         can :manage, Post, user_id: user.id
         can :manage, :all if user.role? :admin
       end
-    when 'Admins'
+    when 'Api::Admins', 'Admins'
       if user.present?
         can %i[show index create], Post if user.role? :admin
         can %i[update destroy], Post, user: { role: 'user' }
