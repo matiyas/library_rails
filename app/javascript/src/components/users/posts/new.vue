@@ -1,22 +1,7 @@
 <template>
     <layout>
-        <form class="form-generic form-post" id="new_post" action="/api/users/posts" accept-charset="UTF-8" method="post">
-            <input name="utf8" type="hidden" value="✓">
-            <h1>Create post</h1>
-            <div class="field">
-                <h5><label for="post_title">Title</label></h5>
-                <input v-model="title" class="form-control" name="post[title]" type="text" id="post_title">
-            </div>
-
-            <div class="field">
-                <h5><label for="post_content">Content</label></h5>
-                <textarea v-model="content" class="form-control" name="post[content]" id="post_content"></textarea>
-            </div>
-
-            <div class="actions">
-                <input v-on:click.prevent="createPost" type="submit" name="commit" value="Create Post" class="btn btn-lg btn-primary btn-block" data-disable-with="Create Post" />
-            </div>
-        </form>
+        <h1>New Post</h1>
+        <post-form v-bind:post="post" v-bind:action="createPost" submit-name="Create Post"></post-form>
     </layout>
 </template>
 
@@ -24,31 +9,27 @@
     import axios from 'axios'
     import router from '../../../../routes'
     import Layout from '../../shared/layout'
+    import PostForm from './_form'
+    import SetErrorMessages from '../../shared/set_error_messages'
 
     export default {
-        components: { Layout },
         name: "new",
+        mixin: [SetErrorMessages],
+        components: { Layout, PostForm },
         data: function() {
             return {
-                title: '',
-                content: ''
+                post: { title: '', content: '' }
             }
         },
         methods: {
             createPost: function () {
-                axios.post('/api/users/posts', { title: this.title, content: this.content })
+                axios.post('/api/users/posts', { title: this.post.title, content: this.post.content })
                      .then(result => {
-                         if(result.status == 201) {
                              router.go(-1);
                              this.flashSuccess(result.data.notice, { timeout: 3000 });
-                         }
-                         else
-                         {
-                             this.flashError(result.data.notice, { timeout: 3000 });
-                         }
                      })
                     .catch(error => {
-                        console.log(error.response.data);
+                        this.setFieldsWithErrors(error.response.data);
                      });
             }
         }

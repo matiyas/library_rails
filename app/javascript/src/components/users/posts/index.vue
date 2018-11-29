@@ -71,17 +71,14 @@
         },
         methods: {
             deletePost: function(post) {
-                axios.defaults
-                     .headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]')
-                                                               .getAttribute('content');
-                axios.delete('/api/users/posts/' + post.id)
-                     .then(response => {
-                         if(response.status === 200) {
-                             var index = this.posts.indexOf(post);
-                             this.posts.splice(index, 1);
-                             this.flashSuccess(response.data.notice, { timeout: 3000 });
-                         }
-                     });
+                if(window.confirm('Are you sure?')) {
+                    axios.delete('/api/users/posts/' + post.id)
+                        .then(response => {
+                            const index = this.posts.indexOf(post);
+                            this.posts.splice(index, 1);
+                            this.flashSuccess(response.data.notice, {timeout: 3000});
+                        });
+                }
             }
         }
     }

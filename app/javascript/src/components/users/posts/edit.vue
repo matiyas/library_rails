@@ -1,22 +1,7 @@
 <template>
     <layout>
-        <form class="form-generic form-post" id="new_post" action="/api/users/posts" accept-charset="UTF-8" method="post">
-            <input name="utf8" type="hidden" value="✓">
-            <h1>Update post</h1>
-            <div class="field">
-                <h5><label for="post_title">Title</label></h5>
-                <input v-model="title" class="form-control" name="post[title]" type="text" id="post_title">
-            </div>
-
-            <div class="field">
-                <h5><label for="post_content">Content</label></h5>
-                <textarea v-model="content" class="form-control" name="post[content]" id="post_content"></textarea>
-            </div>
-
-            <div class="actions">
-                <input v-on:click.prevent="createPost" type="submit" name="commit" value="Update Post" class="btn btn-lg btn-primary btn-block" data-disable-with="Create Post" />
-            </div>
-        </form>
+        <h1>Update Post</h1>
+        <post-form v-bind:post="post" v-bind:action="editPost" submit-name="Update Post"></post-form>
     </layout>
 </template>
 
@@ -24,40 +9,35 @@
     import axios from 'axios'
     import router from '../../../../routes'
     import Layout from '../../shared/layout'
+    import PostForm from './_form'
+    import SetErrorMessages from '../../shared/set_error_messages'
 
     export default {
-        components: { Layout },
         name: "new",
+        mixin: [SetErrorMessages],
+        components: { Layout, PostForm },
         data: function() {
             return {
-                title: '',
-                content: ''
+                post: { id: this.$route.params.id, title: '', content: '' },
             }
         },
         mounted() {
-            axios.get('/api/users/posts/' + this.$route.params.id + '/edit')
+            axios.get('/api/users/posts/' + this.post.id + '/edit')
                 .then(response => {
-                    this.title = response.data.post.title;
-                    this.content = response.data.post.content;
+                    this.post = response.data.post;
                 });
         },
         methods: {
-            createPost: function () {
-                axios.patch('/api/users/posts/' + this.$route.params.id, { title: this.title, content: this.content })
+            editPost: function () {
+                axios.patch('/api/users/posts/' + this.post.id, { title: this.post.title, content: this.post.content })
                     .then(result => {
-                        if(result.status == 200) {
-                            router.go(-1);
-                            this.flashSuccess(result.data.notice, { timeout: 3000 });
-                        }
-                        else
-                        {
-                            this.flashError(result.data.notice, { timeout: 3000 });
-                        }
+                        router.go(-1);
+                        this.flashSuccess(result.data.notice, { timeout: 3000 });
                     })
                     .catch(error => {
-                        console.log(error.response.data);
+                        this.setFieldsWithErrors(error.response.data);
                     });
-            }
+            },
         }
     }
 </script>
