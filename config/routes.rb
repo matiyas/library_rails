@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     confirmations: 'users/confirmations'
   }
+
   namespace :users do
     resources :posts
   end

@@ -1,15 +1,14 @@
 class Api::Users::PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   skip_before_action :authenticate_user!, only: %i[index]
+  skip_before_action :verify_authenticity_token
   load_and_authorize_resource
 
   # GET /users/posts
   # GET /users/posts.json
   def index
     if user_signed_in?
-      @posts = current_user.posts.sort_by(&:created_at)
-                           .reverse
-                           .paginate(page: params[:page])
+      @posts = current_user.posts.sort_by(&:created_at).reverse
     end
   end
 
@@ -31,11 +30,8 @@ class Api::Users::PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     respond_to do |format|
       if @post.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to [:users, @post]}
-        format.json { render :show, status: :created, location: [:users, @post] }
+        format.json { render json: { notice: 'Post was created successfully' }, status: :created, location: [:api, :users, @post] }
       else
-        format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
@@ -46,11 +42,8 @@ class Api::Users::PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to [:users, @post] }
-        format.json { render :show, status: :ok, location: [:users, @post] }
+        format.json { render json: { notice: 'Post was updated successfully.'}, status: :ok }
       else
-        format.html { render :edit }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
@@ -62,7 +55,7 @@ class Api::Users::PostsController < ApplicationController
     @post.destroy
     flash[:notice] = 'Post was successfully destroyed.'
     respond_to do |format|
-      format.html { redirect_to users_posts_url }
+      # format.html { redirect_to users_posts_url }
       format.json do
         render json: { notice: 'Post was successfully destroyed.' },
                status: :ok

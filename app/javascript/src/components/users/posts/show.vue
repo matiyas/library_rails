@@ -6,8 +6,10 @@
     <div class="blog-post">
         <h2 class="blog-post-title">{{ post.title }}</h2>
         <p class="blog-post-meta">
-            {{ new Date(post.created_at).toLocaleDateString() }} by
-            {{ post.user_name }}
+            Created {{ new Date(post.created_at).toLocaleDateString() }} by
+            <router-link :style="{ cursor: 'pointer' }" v-bind:to="{ name: 'user_profile_path', params: { id: post.user_id } }">
+                {{ post.user_name }}
+            </router-link>
         </p>
 
         <p>{{ post.content }}</p>
@@ -16,6 +18,7 @@
 
 <script>
     import axios from 'axios'
+
     export default {
         name: "show",
         data: function () {

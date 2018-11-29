@@ -2,7 +2,7 @@
     <layout>
         <form class="form-generic form-post" id="new_post" action="/api/users/posts" accept-charset="UTF-8" method="post">
             <input name="utf8" type="hidden" value="✓">
-            <h1>Update post</h1>
+            <h1>Create post</h1>
             <div class="field">
                 <h5><label for="post_title">Title</label></h5>
                 <input v-model="title" class="form-control" name="post[title]" type="text" id="post_title">
@@ -14,7 +14,7 @@
             </div>
 
             <div class="actions">
-                <input v-on:click.prevent="createPost" type="submit" name="commit" value="Update Post" class="btn btn-lg btn-primary btn-block" data-disable-with="Create Post" />
+                <input v-on:click.prevent="createPost" type="submit" name="commit" value="Create Post" class="btn btn-lg btn-primary btn-block" data-disable-with="Create Post" />
             </div>
         </form>
     </layout>
@@ -34,29 +34,22 @@
                 content: ''
             }
         },
-        mounted() {
-            axios.get('/api/users/posts/' + this.$route.params.id + '/edit')
-                .then(response => {
-                    this.title = response.data.post.title;
-                    this.content = response.data.post.content;
-                });
-        },
         methods: {
             createPost: function () {
-                axios.patch('/api/users/posts/' + this.$route.params.id, { title: this.title, content: this.content })
-                    .then(result => {
-                        if(result.status == 200) {
-                            router.go(-1);
-                            this.flashSuccess(result.data.notice, { timeout: 3000 });
-                        }
-                        else
-                        {
-                            this.flashError(result.data.notice, { timeout: 3000 });
-                        }
-                    })
+                axios.post('/api/users/posts', { title: this.title, content: this.content })
+                     .then(result => {
+                         if(result.status == 201) {
+                             router.go(-1);
+                             this.flashSuccess(result.data.notice, { timeout: 3000 });
+                         }
+                         else
+                         {
+                             this.flashError(result.data.notice, { timeout: 3000 });
+                         }
+                     })
                     .catch(error => {
                         console.log(error.response.data);
-                    });
+                     });
             }
         }
     }
