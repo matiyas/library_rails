@@ -6,4 +6,5 @@ json.post do
   json.user_name @post.user.name
   json.user_id @post.user.id
   json.user_profile_url profile_path(@post.user)
+  json.image @post.image
 end

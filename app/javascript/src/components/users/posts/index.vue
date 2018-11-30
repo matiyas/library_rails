@@ -3,44 +3,38 @@
         <div>
             <h1>Posts</h1>
             <p>
-                <router-link :style="{ cursor: 'pointer' }" :to="{ name: 'new_post_path' }">
+                <router-link :to="{ name: 'new_post_path' }">
                     New post
                 </router-link>
             </p>
             <table class="table">
                 <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>User</th>
-                    <th>Created</th>
-                    <th colspan="3"></th>
-                </tr>
+                    <tr>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>User</th>
+                        <th>Created</th>
+                        <th colspan="3"></th>
+                    </tr>
                 </thead>
 
                 <tbody>
-                <tr v-for="post in posts" :key="post.id">
-                    <td>
-                        <router-link :style="{ cursor: 'pointer' }" v-bind:to="{ name: 'posts_path', params: { id: post.id } }">
-                            {{ post.title.substr(0, 40) }}
-                        </router-link>
-                    </td>
-                    <td>{{ post.content.substr(0, 100) }}</td>
-                    <td>
-                        <router-link :style="{ cursor: 'pointer' }" v-bind:to="{ name: 'user_profile_path', params: { id: post.user_id } }">
-                            {{ post.user_name }}
-                        </router-link>
-                    </td>
-                    <td>
-                        <timeago :datetime="post.created_at"></timeago>
-                    </td>
-                    <td>
-                        <router-link :style="{ cursor: 'pointer' }" :to="{ name: 'edit_post_path', params: { id: post.id } }">Edit</router-link>
-                    </td>
-                    <td>
-                        <a :style="{ cursor: 'pointer' }" v-on:click="deletePost(post)">Delete</a>
-                    </td>
-                </tr>
+                    <tr v-for="post in posts" :key="post.id">
+                        <td>
+                            <router-link v-bind:to="{ name: 'posts_path', params: { id: post.id } }">
+                                {{ post.title.substr(0, 40) }}
+                            </router-link>
+                        </td>
+                        <td>{{ post.content.substr(0, 100) }}</td>
+                        <td>
+                            <router-link v-bind:to="{ name: 'user_profile_path', params: { id: post.user_id } }">
+                                {{ post.user_name }}
+                            </router-link>
+                        </td>
+                        <td><timeago :datetime="post.created_at"></timeago></td>
+                        <td><router-link :to="{ name: 'edit_post_path', params: { id: post.id } }">Edit</router-link></td>
+                        <td><a v-on:click="deletePost(post)" :style="{ cursor: 'pointer' }">Delete</a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -48,8 +42,8 @@
 </template>
 
 <script>
-    import Layout from '../../shared/layout'
-    import axios from 'axios'
+    import Layout from '../../shared/layout';
+    import axios from 'axios';
     import Vue from 'vue/dist/vue.esm.js';
     import VueTimeago from 'vue-timeago'
     import VueRouter from 'vue-router'
@@ -83,6 +77,3 @@
         }
     }
 </script>
-
-<style scoped>
-</style>

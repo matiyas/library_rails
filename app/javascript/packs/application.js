@@ -9,9 +9,11 @@
 
 import Vue from 'vue/dist/vue.esm.js';
 import router from '../routes';
-import axios from 'axios';
+import Gravatar from 'vue-gravatar';
 
 $(window).on('load', function () {
+    Vue.component('gravatar', Gravatar);
+
     const app = new Vue({
         router
     }).$mount("#app");

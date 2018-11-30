@@ -7,8 +7,8 @@
         </div>
 
         <div class="field">
-            <img v-model="post.image">
-            <input type="file" >
+            <img v-bind:src="post.image">
+            <input type="file" @change="previewImageAction" accept="image/*">
         </div>
 
         <div class="field">
@@ -34,7 +34,7 @@
     export default {
 
         components: {UploadImage},
-        props: ['post', 'action', 'submitName']
+        props: ['post', 'action', 'submitName', 'previewImageAction']
     }
 </script>
 

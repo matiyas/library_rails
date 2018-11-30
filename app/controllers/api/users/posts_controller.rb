@@ -28,6 +28,7 @@ class Api::Users::PostsController < ApplicationController
   # POST /users/posts.json
   def create
     @post = current_user.posts.build(post_params)
+    debugger
     respond_to do |format|
       if @post.save
         format.json { render json: { notice: 'Post was created successfully' }, status: :created, location: [:api, :users, @post] }
@@ -71,6 +72,6 @@ class Api::Users::PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :content, :user_id)
+    params.require(:post).permit(:title, :content, :user_id, :image)
   end
 end

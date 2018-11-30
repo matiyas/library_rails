@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
     namespace :users do
       resources :posts
+      resources :profiles
     end
   end
 
