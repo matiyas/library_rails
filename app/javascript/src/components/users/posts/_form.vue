@@ -7,6 +7,11 @@
         </div>
 
         <div class="field">
+            <img v-model="post.image">
+            <input type="file" >
+        </div>
+
+        <div class="field">
             <h5><label for="post_content">Content</label></h5>
             <textarea v-model="post.content" class="form-control" name="post[content]" id="post_content"></textarea>
         </div>
@@ -24,7 +29,11 @@
 </template>
 
 <script>
+    import UploadImage from 'vue-upload-image';
+
     export default {
+
+        components: {UploadImage},
         props: ['post', 'action', 'submitName']
     }
 </script>

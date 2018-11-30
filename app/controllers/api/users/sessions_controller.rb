@@ -2,6 +2,13 @@
 
 class Api::Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
+  # skip_before_action :verify_authenticity_token
+  #
+  # before_action :authenticate_user!, :redirect_unless_admin, only: [:new, :create]
+  # skip_before_action :require_no_authentication
+
+  clear_respond_to
+  respond_to :json
 
   # GET /resource/sign_in
   # def new
@@ -28,6 +35,16 @@ class Api::Users::SessionsController < Devise::SessionsController
     respond_to do |format|
       format.html { redirect_to new_user_session_path }
     end
+  end
+
+  private
+
+  def redirect_unless_admin
+    head :unauthorized unless current_user.try(:admin?)
+  end
+
+  def sign_up(_resource_name, _resource)
+    true
   end
 
   # protected

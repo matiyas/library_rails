@@ -7,6 +7,7 @@ import ShowUserPost from 'src/components/users/posts/show'
 import EditUserPost from 'src/components/users/posts/edit'
 import NewUserPost from 'src/components/users/posts/new'
 import UsersProfile from 'src/components/users/profile'
+import NewUserSession from 'src/components/users/session/new'
 
 
 const router = new VueRouter({
@@ -17,6 +18,7 @@ const router = new VueRouter({
         { path: '/users/posts/:id/edit', component: EditUserPost, name: 'edit_post_path' },
         { path: '/users/posts/new', component: NewUserPost, name: 'new_post_path' },
         { path: '/users/profiles/:id', component: UsersProfile, name: 'user_profile_path' },
+        { path: '/users/session/new', component: NewUserSession, name: 'new_user_session_path' }
     ]
 });
 

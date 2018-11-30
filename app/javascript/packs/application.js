@@ -8,7 +8,8 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import Vue from 'vue/dist/vue.esm.js';
-import router from '../routes'
+import router from '../routes';
+import axios from 'axios';
 
 $(window).on('load', function () {
     const app = new Vue({

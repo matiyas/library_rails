@@ -6556,6 +6556,11 @@ vue-loader@14.2.2:
     vue-style-loader "^4.0.1"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-picture-input@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/vue-picture-input/-/vue-picture-input-2.1.6.tgz#6a47af68d19c9122cdd20de980d3b113b0a614be"
+  integrity sha512-aM5Pyjz3Kup35/6OCjpgA0BEpLTW9YuN7Ds44XLibXZcxnYYLQezmXpb6IXg/orVTMwMLWNpsHCT3wPhLfjdeA==
+
 vue-router@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
@@ -6588,6 +6593,11 @@ vue-timeago@^5.0.0:
   integrity sha512-C+EqTlfHE9nO6FOQIS6q5trAZ0WIgNz/eydTvsanPRsLVV1xqNiZirTG71d9nl/LjfNETwaktnBlgP8adCc37A==
   dependencies:
     date-fns "^1.29.0"
+
+vue-upload-image@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-upload-image/-/vue-upload-image-1.1.0.tgz#c47c69f1619be906f49bbf35fb9db17722891b3e"
+  integrity sha512-djek8G76PNmN/bqiISdmBEiWCLo4X6vQZgvqFBWYPRd66HRnZqMrvXXpKU0zBrjg7N9YxyFvq8Z0LPR14LgvsQ==
 
 vue@^2.5.17:
   version "2.5.17"

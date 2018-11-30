@@ -53,9 +53,7 @@ class Api::Users::PostsController < ApplicationController
   # DELETE /users/posts/1.json
   def destroy
     @post.destroy
-    flash[:notice] = 'Post was successfully destroyed.'
     respond_to do |format|
-      # format.html { redirect_to users_posts_url }
       format.json do
         render json: { notice: 'Post was successfully destroyed.' },
                status: :ok
