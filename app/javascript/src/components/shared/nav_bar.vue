@@ -1,10 +1,19 @@
 <template>
-
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top">
+            <h5 class="my-0 mr-md-auto font-weight-normal"><router-link :to="{ name: 'root_path' }">Home</router-link></h5>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <% if user_signed_in? %>
+                <p>You're loged in as <%= link_to current_user.name, profile_path(current_user) %></p>
+                <% end %>
+            </nav>
+        </div>
+    </header>
 </template>
 
 <script>
     export default {
-        name: "nav_bar"
+        name: "nav-bar"
     }
 </script>
 

@@ -1,7 +1,7 @@
 module Users
   class PostsController < ApplicationController
     before_action :set_post, only: %i[show edit update destroy]
-    # skip_before_action :authenticate_user!, only: %i[index]
+    skip_before_action :authenticate_user!, only: %i[index]
     load_and_authorize_resource
 
     # GET /users/posts
