@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   get 'profiles/:id', to: 'profiles#show', as: 'profile'
   # resources :posts
-  root 'users/posts#index'
+  root 'application#index'
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions',

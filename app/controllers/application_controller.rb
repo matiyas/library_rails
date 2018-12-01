@@ -7,6 +7,11 @@ class ApplicationController < ActionController::Base
   #   redirect_to new_user_session_path, :alert => exception.message
   # end
 
+  def index
+    sign_in(:user, User.second)
+    render template: 'application'
+  end
+
   private
 
   def current_ability
