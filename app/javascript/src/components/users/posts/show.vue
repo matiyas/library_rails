@@ -16,11 +16,9 @@
 
 <script>
     import axios from 'axios'
-    import Layout from '../../shared/layout'
 
     export default {
         name: "show",
-        components: { Layout },
         data: function () {
             return {
                 post: { title: '', content: '', created_at: '', image: '' }

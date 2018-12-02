@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
   # end
 
   def index
-    # sign_in(:user, User.second)
     render template: 'application'
   end
 

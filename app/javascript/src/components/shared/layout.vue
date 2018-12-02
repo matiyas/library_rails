@@ -9,12 +9,10 @@
 </template>
 
 <script>
-    import Vue from 'vue/dist/vue.esm.js';
-    import VueFlashMessage from 'vue-flash-message';
-    import NavBar from '../shared/nav_bar';
+    import Vue from 'vue/dist/vue.esm.js'
+    import VueFlashMessage from 'vue-flash-message'
 
     Vue.use(VueFlashMessage);
-    export default {
-        components: { NavBar }
-    }
+
+    export default {}
 </script>

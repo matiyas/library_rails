@@ -42,18 +42,16 @@
 </template>
 
 <script>
-    import Layout from '../../shared/layout';
     import axios from 'axios';
     import Vue from 'vue/dist/vue.esm.js';
     import VueTimeago from 'vue-timeago';
     import VueRouter from 'vue-router';
-    import router from '../../../../routes'
+    import router from '../../../../routes';
 
     Vue.use(VueRouter);
     Vue.use(VueTimeago);
 
     export default {
-        components: { Layout },
         name: "UsersPosts",
         data() {
             return {
@@ -75,7 +73,7 @@
                         .then(response => {
                             const index = this.posts.indexOf(post);
                             this.posts.splice(index, 1);
-                            this.flashSuccess(response.data.notice, {timeout: 3000});
+                            this.flashSuccess(response.data.notice, { timeout: 3000 });
                         });
                 }
             }
