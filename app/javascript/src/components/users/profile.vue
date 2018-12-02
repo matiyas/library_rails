@@ -8,11 +8,9 @@
 
 <script>
     import axios from 'axios';
-    import Layout from '../shared/layout'
 
     export default {
         name: "profile",
-        components: { Layout },
         data: function() {
             return {
                 user: { name: '', email: '' }
@@ -20,9 +18,9 @@
         },
         mounted() {
             axios.get('/api/users/profiles/' + this.$route.params.id)
-                 .then(response => {
-                     this.user = response.data.user;
-                 });
+                .then(response => {
+                    this.user = response.data.user;
+                });
         },
     }
 </script>

@@ -29,11 +29,7 @@
 </template>
 
 <script>
-    import UploadImage from 'vue-upload-image';
-
     export default {
-
-        components: {UploadImage},
         props: ['post', 'action', 'submitName', 'previewImageAction']
     }
 </script>

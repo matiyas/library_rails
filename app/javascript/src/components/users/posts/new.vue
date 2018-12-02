@@ -11,15 +11,12 @@
 <script>
     import axios from 'axios'
     import router from '../../../../routes'
-    import Layout from '../../shared/layout'
-    import PostForm from './_form'
     import SetErrorMessages from '../../shared/mixins/set_error_messages'
     import PreviewImage from '../../shared/mixins/preview_image'
 
     export default {
         name: "new",
         mixin: [SetErrorMessages, PreviewImage],
-        components: { Layout, PostForm },
         data: function() {
             return {
                 post: { title: '', content: '', image: '' }

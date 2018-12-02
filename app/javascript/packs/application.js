@@ -7,15 +7,22 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-import Vue from 'vue/dist/vue.esm.js';
-import router from '../routes';
-import Gravatar from 'vue-gravatar';
-import setupCSRFToken from '../setupCSRFToken';
+import Vue from 'vue/dist/vue.esm.js'
+import router from '../routes'
+import Gravatar from 'vue-gravatar'
+import setupCSRFToken from '../setupCSRFToken'
+import NavBar from '../src/components/shared/nav_bar'
+import Layout from '../src/components/shared/layout'
+import PostForm from '../src/components/users/posts/_form'
+
 
 $(window).on('load', function () {
     setupCSRFToken();
 
     Vue.component('gravatar', Gravatar);
+    Vue.component('nav-bar', NavBar);
+    Vue.component('layout', Layout);
+    Vue.component('post-form', PostForm);
 
     const app = new Vue({
         router
