@@ -1,26 +1,27 @@
 # frozen_string_literal: true
 
 class Api::Users::SessionsController < Devise::SessionsController
-  # before_action :configure_sign_in_params, only: [:create]
   skip_before_action :verify_authenticity_token
-  #
-  # before_action :authenticate_user!, :redirect_unless_admin, only: [:new, :create]
-  # skip_before_action :require_no_authentication
 
   clear_respond_to
   respond_to :json
-
-  # GET /resource/sign_in
-  # def new
-  #   super
-  # end
 
   # POST /resource/sign_in
   def create
     success, user = User.valid_login?(params[:email], params[:password])
     if success
       sign_in(:user, user)
-      render json: { notice: 'You have been successfully logged in.' },
+      if Devise::TRUE_VALUES.include?(params[:remember_me])
+        user.remember_me!
+        cookies.signed[:remember_user_token] = {
+          value: user.class.serialize_into_cookie(user.reload),
+          expires: user.class.remember_for.from_now
+        }
+      end
+      render json: {
+        notice: 'You have been successfully logged in.',
+        current_user: { name: current_user.name, id: current_user.id }
+      },
              status: :created
     else
       head :unauthorized
@@ -50,10 +51,4 @@ class Api::Users::SessionsController < Devise::SessionsController
     true
   end
 
-  # protected
-
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_in_params
-  #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-  # end
 end

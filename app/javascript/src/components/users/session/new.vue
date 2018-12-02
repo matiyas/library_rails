@@ -1,13 +1,6 @@
 <template>
     <layout>
-        <form class="form-generic form-signin"
-              id="new_user"
-              action="/users/sign_in"
-              accept-charset="UTF-8"
-              method="post">
-            <input name="utf8"
-                   type="hidden"
-                   value="✓">
+        <form class="form-generic form-signin">
             <h2>Log in</h2>
 
             <div class="field">
@@ -16,9 +9,8 @@
                        class="form-control"
                        placeholder="Email address"
                        type="email"
-                       value=""
                        name="user[email]"
-                       id="user_email" v-model="user.email">
+                       v-model="user.email">
             </div>
 
             <div class="field">
@@ -27,23 +19,23 @@
                        placeholder="Password"
                        type="password"
                        name="user[password]"
-                       id="user_password" v-model="user.password">
+                       v-model="user.password">
             </div>
 
             <div class="field checkbox mb-3">
-                <input name="user[remember_me]"
-                       type="hidden" value="0">
                 <input type="checkbox"
-                       value="1"
                        name="user[remember_me]"
-                       id="user_remember_me" v-model="user.remember_me"> Remember me
+                       true-value="1"
+                       false-value="0"
+                       v-model="user.remember_me">
+                Remember me
             </div>
 
             <div class="actions">
                 <input type="submit"
-                       name="commit"
                        value="Log in"
-                       class="btn btn-lg btn-primary btn-block" v-on:click.prevent="sign_in">
+                       class="btn btn-lg btn-primary btn-block"
+                       v-on:click.prevent="sign_in">
             </div>
         </form>
     </layout>
@@ -53,6 +45,7 @@
     import axios from 'axios';
     import Layout from '../../shared/layout';
     import router from '../../../../routes';
+    import store from '../../../../store';
 
     export default {
         name: "new",
@@ -60,6 +53,7 @@
         data: function() {
             return {
                 user: { email: '', password: '', remember_me: 0 },
+                store
             }
         },
         methods: {
@@ -72,8 +66,9 @@
                 .then(result => {
                     router.push({ name: 'root_path' });
                     this.flashSuccess(result.data.notice, { timeout: 3000 });
+                    this.store.current_user = result.data.current_user;
                 })
-                .catch(error => {
+                .catch(() => {
                     this.flashError('Invalid email/password combination.', { timeout: 3000 });
                 });
             },
