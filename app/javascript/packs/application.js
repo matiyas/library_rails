@@ -10,8 +10,11 @@
 import Vue from 'vue/dist/vue.esm.js';
 import router from '../routes';
 import Gravatar from 'vue-gravatar';
+import setupCSRFToken from '../setupCSRFToken';
 
 $(window).on('load', function () {
+    setupCSRFToken();
+
     Vue.component('gravatar', Gravatar);
 
     const app = new Vue({

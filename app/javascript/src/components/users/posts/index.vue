@@ -45,8 +45,9 @@
     import Layout from '../../shared/layout';
     import axios from 'axios';
     import Vue from 'vue/dist/vue.esm.js';
-    import VueTimeago from 'vue-timeago'
-    import VueRouter from 'vue-router'
+    import VueTimeago from 'vue-timeago';
+    import VueRouter from 'vue-router';
+    import router from '../../../../routes'
 
     Vue.use(VueRouter);
     Vue.use(VueTimeago);
@@ -61,7 +62,11 @@
         },
         mounted() {
             axios.get('/api/users/posts')
-                .then(response => (this.posts = response.data.posts))
+                .then(response => { this.posts = response.data.posts })
+                .catch(error => {
+                    this.flashError(error.response.data.error);
+                    router.push({ name: 'new_user_session_path' });
+                });
         },
         methods: {
             deletePost: function(post) {

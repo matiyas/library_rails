@@ -2,13 +2,14 @@ class ApplicationController < ActionController::Base
   require 'will_paginate/array'
 
   before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: :index
 
   # rescue_from CanCan::AccessDenied do |exception|
   #   redirect_to new_user_session_path, :alert => exception.message
   # end
 
   def index
-    sign_in(:user, User.second)
+    # sign_in(:user, User.second)
     render template: 'application'
   end
 

@@ -21,10 +21,10 @@ Rails.application.routes.draw do
 
   namespace :api, :defaults => { :format => 'json' } do
     devise_for :users, controllers: {
-      registrations: 'users/registrations',
-      sessions: 'users/sessions',
-      passwords: 'users/passwords',
-      confirmations: 'users/confirmations'
+      registrations: 'api/users/registrations',
+      sessions: 'api/users/sessions',
+      passwords: 'api/users/passwords',
+      confirmations: 'api/users/confirmations'
     }
 
     namespace :admins do

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <layout>
         <form class="form-generic form-signin"
               id="new_user"
               action="/users/sign_in"
@@ -45,49 +45,36 @@
                        value="Log in"
                        class="btn btn-lg btn-primary btn-block" v-on:click.prevent="sign_in">
             </div>
-
-            <!--<a href="/users/sign_up">Sign up</a><br>-->
-
-            <!--<a href="/users/password/new">Forgot your password?</a><br>-->
-
-            <!--<a href="/users/confirmation/new">Didn't receive confirmation instructions?</a><br>-->
         </form>
-    </div>
+    </layout>
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from 'axios';
+    import Layout from '../../shared/layout';
+    import router from '../../../../routes';
 
     export default {
         name: "new",
+        components: { Layout },
         data: function() {
             return {
-                user: { email: '', password: '', remember_me: 0},
+                user: { email: '', password: '', remember_me: 0 },
             }
         },
-        // mounted() {
-        //     axios.get('/api/users/posts/' + this.post.id + '/edit')
-        //         .then(response => {
-        //             this.post = response.data.post;
-        //         });
-        // },
         methods: {
             sign_in: function () {
-                const csrfToken = document.querySelector("meta[name=csrf-token]").content;
-                axios.defaults.headers.common['X-CSRF-Token'] = csrfToken;
-
                 axios.post('/api/users/sign_in/', {
                     email: this.user.email,
-                    content: this.user.password,
+                    password: this.user.password,
                     remember_me: this.user.remember_me
                 })
                 .then(result => {
-                    router.push('root_path');
+                    router.push({ name: 'root_path' });
                     this.flashSuccess(result.data.notice, { timeout: 3000 });
                 })
                 .catch(error => {
-                    console.log(error.response.data);
-                    // this.setFieldsWithErrors(error.response.data);
+                    this.flashError('Invalid email/password combination.', { timeout: 3000 });
                 });
             },
         }

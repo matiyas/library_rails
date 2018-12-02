@@ -2,7 +2,7 @@
 
 class Api::Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-  # skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
   #
   # before_action :authenticate_user!, :redirect_unless_admin, only: [:new, :create]
   # skip_before_action :require_no_authentication
@@ -17,13 +17,13 @@ class Api::Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    self.resource = warden.authenticate!(auth_options)
-    flash[:notice] = find_message(:signed_in)
-    sign_in(resource_name, resource)
-    yield resource if block_given?
-    respond_to do |format|
-      format.html { redirect_to after_sign_in_path_for(resource) }
-      format.json { render json: { url: after_sign_in_path_for(resource) } }
+    success, user = User.valid_login?(params[:email], params[:password])
+    if success
+      sign_in(:user, user)
+      render json: { notice: 'You have been successfully logged in.' },
+             status: :created
+    else
+      head :unauthorized
     end
   end
 
@@ -33,7 +33,10 @@ class Api::Users::SessionsController < Devise::SessionsController
     set_flash_message! :notice, :signed_out if signed_out
     yield if block_given?
     respond_to do |format|
-      format.html { redirect_to new_user_session_path }
+      format.json do
+        render json: { notice: 'You have been successfully logged out.' },
+               status: :ok
+      end
     end
   end
 

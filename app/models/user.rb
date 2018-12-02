@@ -17,4 +17,9 @@ class User < ApplicationRecord
   def role?(base_role)
     ROLES.index(base_role.to_s) <= ROLES.index(role)
   end
+
+  def self.valid_login?(email, password)
+    user = where(email: email).first
+    [user&.valid_password?(password), user]
+  end
 end

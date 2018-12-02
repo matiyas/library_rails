@@ -6,9 +6,11 @@ class Api::Users::PostsController < ApplicationController
 
   # GET /users/posts.json
   def index
-    if user_signed_in?
-      @posts = current_user.posts.sort_by(&:created_at).reverse
-    end
+    @posts = if user_signed_in? 
+               current_user.posts.sort_by(&:created_at).reverse
+             else
+               render json: { error: 'You must log in.' }, status: :unauthorized
+            end
   end
 
   # GET /users/posts/1.json

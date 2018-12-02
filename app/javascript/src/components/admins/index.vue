@@ -31,6 +31,7 @@
     import axios from 'axios'
     import Vue from 'vue'
     import VueTimeago from 'vue-timeago'
+    import router from '../../../routes'
 
     Vue.use(VueTimeago);
 
@@ -43,8 +44,15 @@
             }
         },
         mounted() {
-            axios.get('/api/admins/posts?page=3')
+            axios.get('/api/admins/posts')
                 .then(response => (this.posts = response.data))
+                .catch(error => {
+                    this.flashError(error);
+
+                    // if(error.result.status === 401) {
+                    //     router.push({ name: 'new_user_session_path' });
+                    // }
+                })
         }
     }
 </script>
