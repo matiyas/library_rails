@@ -10,7 +10,7 @@ class Api::Users::PostsController < ApplicationController
                current_user.posts.sort_by(&:created_at).reverse
              else
                render json: { error: 'You must log in.' }, status: :unauthorized
-            end
+             end
   end
 
   # GET /users/posts/1.json
@@ -60,7 +60,7 @@ class Api::Users::PostsController < ApplicationController
     @post.destroy
     respond_to do |format|
       format.json do
-        render json: { notice: 'Post was successfully destroyed.' },
+        render json: { notice: 'Post was deleted successfully.' },
                status: :ok
       end
     end

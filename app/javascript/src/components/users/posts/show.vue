@@ -8,7 +8,7 @@
                     {{ post.user_name }}
                 </router-link>
             </p>
-            <img :src="post.image"/>
+            <img class="post-image" :src="post.image"/>
             <p>{{ post.content }}</p>
         </div>
     </layout>
@@ -33,5 +33,8 @@
 </script>
 
 <style scoped>
-
+    .post-image {
+        max-width: 10px;
+        max-height: 10px;
+    }
 </style>
