@@ -1,7 +1,8 @@
 <template>
     <layout>
         <h1>Update Post</h1>
-        <post-form v-bind:post="post"
+        <post-form ref="postForm"
+                   v-bind:post="post"
                    v-bind:action="editPost"
                    v-bind:preview-image-action="previewImage"
                    submit-name="Update Post"></post-form>
@@ -30,12 +31,15 @@
         },
         methods: {
             editPost: function () {
-                const data = {
-                    title: this.post.title,
-                    content: this.post.content,
-                    image: this.post.image
+                var data = new FormData(this.$refs.postForm.$el);
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
                 };
-                axios.patch('/api/users/posts/' + this.post.id, data)
+
+                axios.patch('/api/users/posts/' + this.post.id, data, config)
                     .then(result => {
                         router.go(-1);
                         this.flashSuccess(result.data.notice, { timeout: 3000 });

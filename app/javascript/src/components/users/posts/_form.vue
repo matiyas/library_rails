@@ -1,5 +1,5 @@
 <template>
-    <form class="form-generic form-post" accept-charset="UTF-8" method="post">
+    <form ref="postForm" class="form-generic form-post" accept-charset="UTF-8" method="post" enctype="multipart/form-data">
         <input name="utf8" type="hidden" value="✓">
         <div class="field">
             <h5><label for="post_title">Title</label></h5>
@@ -8,7 +8,7 @@
 
         <div class="field">
             <img v-bind:src="post.image">
-            <input type="file" @change="previewImageAction" accept="image/*">
+            <input type="file" @change="previewImageAction" accept="image/*" class="form-control" name="post[image]" id="post_image">
         </div>
 
         <div class="field">

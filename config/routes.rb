@@ -3,10 +3,10 @@
 Rails.application.routes.draw do
   namespace :api, :defaults => { :format => 'json' } do
     devise_for :users, controllers: {
-        registrations: 'api/users/registrations',
-        sessions: 'api/users/sessions',
-        passwords: 'api/users/passwords',
-        confirmations: 'api/users/confirmations'
+      registrations: 'api/users/registrations',
+      sessions: 'api/users/sessions',
+      passwords: 'api/users/passwords',
+      confirmations: 'api/users/confirmations'
     }
 
     namespace :admins do
@@ -22,8 +22,8 @@ Rails.application.routes.draw do
   match "*path", to: "application#index", format: false, via: :get
 
   get 'profiles/:id', to: 'profiles#show', as: 'profile'
-  # resources :posts
   root 'application#index'
+
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions',
@@ -38,6 +38,5 @@ Rails.application.routes.draw do
   namespace :admins do
     resources :posts
   end
-
-
+  
 end

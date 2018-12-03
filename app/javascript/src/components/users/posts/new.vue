@@ -1,8 +1,9 @@
 <template>
     <layout>
         <h1>New Post</h1>
-        <post-form v-bind:post="post"
-                   v-bind:action="createPost"
+        <post-form ref="postForm"
+                   v-bind:post="post"
+                   v-bind:action.prevent="createPost"
                    v-bind:preview-image-action="previewImage"
                    submit-name="Create Post"></post-form>
     </layout>
@@ -24,12 +25,15 @@
         },
         methods: {
             createPost: function () {
-                const data = {
-                    title: this.post.title,
-                    content: this.post.content,
-                    image: this.post.image
+                var data = new FormData(this.$refs.postForm.$el);
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
                 };
-                axios.post('/api/users/posts', data)
+
+                axios.post('/api/users/posts', data, config)
                      .then(result => {
                              router.go(-1);
                              this.flashSuccess(result.data.notice, { timeout: 3000 });

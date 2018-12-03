@@ -27,7 +27,9 @@
         mounted() {
             var path = '/api/users/posts/' + this.$route.params.id;
             axios.get(path)
-                .then(response => (this.post = response.data.post));
+                .then(response => {
+                    this.post = response.data.post
+                });
         }
     }
 </script>
